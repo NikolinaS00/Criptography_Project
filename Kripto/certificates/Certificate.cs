@@ -201,7 +201,7 @@ namespace Kripto.certificates
             return false;
         }
 
-        public static void revokeCertificate(string certificatePath) //napraviti da se salje putanja cert-a 
+        public static void revokeCertificate(string certificatePath) 
         {
 
             X509Certificate2 certificate = new X509Certificate2(pathRootKey, "sigurnost", X509KeyStorageFlags.Exportable | X509KeyStorageFlags.PersistKeySet);
@@ -211,7 +211,6 @@ namespace Kripto.certificates
             var crlFile = File.ReadAllBytes(pathCRL);
             X509Crl crl = new X509CrlParser().ReadCrl(crlFile);
             Stream userCert = new FileStream(certificatePath, FileMode.Open);
-            //var certFile = File.ReadAllBytes(Path.GetFullPath(System.IO.Path.Combine(currentDirectory, @".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "cripto" + Path.DirectorySeparatorChar + "userCerts" + Path.DirectorySeparatorChar + "nikolina_stojcic" + Path.DirectorySeparatorChar + "Certificate.cer")));
             var cert = new X509CertificateParser().ReadCertificate(userCert);
             var revokedSerialNumber = cert.SerialNumber;
             var revokedDate = DateTime.Now;

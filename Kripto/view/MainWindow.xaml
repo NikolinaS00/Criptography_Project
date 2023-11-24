@@ -27,7 +27,7 @@
             <Button Grid.Column="6" Content="Preuzmi dokument">
                 
             </Button>
-            <Button Grid.Column="4" Content="Upload dokument">
+            <Button Grid.Column="4" Content="Upload dokument" x:Name="uploadButton" Click="uploadButton_Click">
                 
             </Button>
         </Grid>
