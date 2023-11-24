@@ -1,0 +1,78 @@
+﻿<Window x:Class="Kripto.view.CreateAccount"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kripto.view"
+        mc:Ignorable="d"
+        Title="CreateAccount" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="4*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="2*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="2*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="2*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="2*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" Grid.Column="0">
+                    <Label Content="Ime"></Label>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <Label Content="Prezime"></Label>
+                </Grid>
+                <Grid Grid.Row="4" Grid.Column="0">
+                    <Label Content="Korisničko ime"></Label>
+                </Grid>
+                <Grid Grid.Row="6" Grid.Column="0">
+                    <Label Content="Lozinka"></Label>
+                </Grid>
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <TextBox x:Name="name" TextChanged="name_TextChanged"></TextBox>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="1">
+                    <TextBox x:Name="surname" TextChanged="surname_TextChanged"></TextBox>
+                </Grid>
+                <Grid Grid.Row="4" Grid.Column="1">
+                    <TextBox x:Name="username" TextChanged="username_TextChanged"></TextBox>
+                </Grid>
+                <Grid Grid.Row="6" Grid.Column="1">
+                    <TextBox x:Name="password" TextChanged="password_TextChanged"></TextBox>
+                </Grid>
+                <Grid  Grid.Row="8" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="1">
+                        <Button x:Name="createButton" Content="Kreiraj nalog" Click="createButton_Click"></Button>
+                    </Grid>
+                </Grid> 
+                
+            </Grid>
+            
+            
+         
+        </Grid>
+    </Grid>
+</Window>
