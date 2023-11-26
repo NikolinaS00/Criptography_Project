@@ -1,0 +1,1 @@
+Dokument za testiranje segmentiranja fajla na slucajno generisan broj od 4 do 9 dijelova.

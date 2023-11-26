@@ -17,6 +17,8 @@ using System.Runtime.ConstrainedExecution;
 using Org.BouncyCastle.OpenSsl;
 using System.Xml.Serialization;
 using System.Security.Cryptography;
+using System.Windows.Media;
+using Org.BouncyCastle.Utilities.Collections;
 
 namespace Kripto.certificates
 {
@@ -190,7 +192,7 @@ namespace Kripto.certificates
             var crlFile = File.ReadAllBytes(pathCRL);
             X509Crl crl = new X509CrlParser().ReadCrl(crlFile);
             var revokedCertifikates = crl.GetRevokedCertificates();
-
+            userCert.Close();
             foreach (var cert in revokedCertifikates)
             {
                 if (certUserEntry.Certificate.SerialNumber.Equals(cert.SerialNumber))
@@ -198,6 +200,7 @@ namespace Kripto.certificates
                     return true;
                 }                 
             }
+
             return false;
         }
 
@@ -224,6 +227,39 @@ namespace Kripto.certificates
             var updatedCrlFile = crlTemp.GetEncoded();
             File.WriteAllBytes(pathCRL, updatedCrlFile);
 
+            userCert.Close();
+        }
+
+        public static void removeCertificateFromCRL(string certificatePath)
+        {
+            X509Certificate2 certificate = new X509Certificate2(pathRootKey, "sigurnost", X509KeyStorageFlags.Exportable | X509KeyStorageFlags.PersistKeySet);
+            RSACryptoServiceProvider rsa = (RSACryptoServiceProvider)certificate.PrivateKey;
+            AsymmetricCipherKeyPair keyPair = DotNetUtilities.GetRsaKeyPair(rsa);
+
+            Stream caCert = new FileStream(path, FileMode.Open);
+            var CAcert = new X509CertificateParser().ReadCertificate(caCert);
+            var crlFile = File.ReadAllBytes(pathCRL);
+            X509Crl crl = new X509CrlParser().ReadCrl(crlFile);
+            X509V2CrlGenerator generator = new X509V2CrlGenerator();
+            Stream userCert = new FileStream(certificatePath, FileMode.Open);
+            var cert = new X509CertificateParser().ReadCertificate(userCert);
+            generator.SetIssuerDN(CAcert.IssuerDN);
+            generator.SetThisUpdate(DateTime.Now);
+            generator.SetNextUpdate(DateTime.Now.AddYears(1));
+            foreach (X509CrlEntry certInCRL in crl.GetRevokedCertificates())
+            {
+                if (!certInCRL.SerialNumber.Equals(cert.SerialNumber))
+                {
+                    generator.AddCrlEntry(certInCRL.SerialNumber, certInCRL.RevocationDate, CrlReason.PrivilegeWithdrawn);
+                }
+            }
+
+            var randomGenerator = new CryptoApiRandomGenerator();
+            var random = new SecureRandom(randomGenerator);
+            string signatureAlgorithm = "SHA256WITHRSA";
+            ISignatureFactory sf = new Asn1SignatureFactory(signatureAlgorithm, keyPair.Private, random);
+            X509Crl crlTemp = generator.Generate(sf);
+            System.IO.File.WriteAllBytes(pathCRL, crlTemp.GetEncoded());
             userCert.Close();
         }
     }

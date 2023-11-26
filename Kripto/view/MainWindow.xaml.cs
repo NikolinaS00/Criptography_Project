@@ -22,6 +22,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using static Org.BouncyCastle.Asn1.Cmp.Challenge;
 
 namespace Kripto.view
 {
@@ -52,7 +53,8 @@ namespace Kripto.view
         {
 
             StreamReader reader = new StreamReader(filePath);
-            int numberOfSegments = 5; // staviti da bude neka slucajno generisana vrijednost veca od cetiri kao sto je zadato u projektnom zad
+            Random random = new Random();
+            int numberOfSegments = random.Next(3, 10); ; // staviti da bude neka slucajno generisana vrijednost veca od cetiri kao sto je zadato u projektnom zad
 
             byte[] data = Encoding.UTF8.GetBytes(reader.ReadToEnd());
 
@@ -229,14 +231,10 @@ namespace Kripto.view
         private void listOfUserFolders_GotFocus(object sender, RoutedEventArgs e)
         {
 
-
-            Console.WriteLine("**************" + sender.ToString().Split(':')[2]);
-
-
             string folderPath = System.IO.Path.GetFullPath(sender.ToString().Split(':')[2]);
             Console.WriteLine(folderPath);
             folders = Directory.GetDirectories(folderPath);
-            decryptFileContent(folders);
+          
             
         }
 
@@ -244,7 +242,6 @@ namespace Kripto.view
         {
 
             string folderName = Path.GetFileName(folderPath[0]);
-           // StreamWriter sw = new StreamWriter(Path.GetFullPath(System.IO.Path.Combine(currentDirectory, @".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "downloads" + Path.DirectorySeparatorChar   + folderName + ".txt")));
             bool writeIntoFile = true;
             Console.WriteLine($"{folderName}");
             string fileContentString = "";
@@ -298,6 +295,18 @@ namespace Kripto.view
             return "string";
         }
 
+        private void downloadButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(folders!=null) {
+                decryptFileContent(folders);
+            }
+            else
+            {
+                MessageBox.Show("Nije moguce preuzeti dokument koji nije selektovan!", "Greska pri preuzimanju", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
+
+        }
     }
 }
 

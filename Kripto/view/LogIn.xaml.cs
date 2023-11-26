@@ -21,6 +21,7 @@ namespace Kripto.view
     
     public partial class LogIn : Window
     {
+        public static bool isCertificateRevoked;
         public static X509Certificate loggedUserCertificate;
         public static string loggedUserPassword;
         public static bool loginAvailable = false;
@@ -46,18 +47,24 @@ namespace Kripto.view
 
         private void logInBtn_Click(object sender, RoutedEventArgs e)
         {
-
+          
             if (logInCounter < 3)
             {
 
                 if (areCredentialsValid(userName.Text, password.Text))
                 {
                     loggedUserPassword = password.Text;
+                    if (isCertificateRevoked)
+                    {
+                        Certificate.removeCertificateFromCRL(LogIn.certificatePath);
+            }
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.Show();
+
                 }
                 else
                 {
+                    logInCounter++;
                     MessageBoxButton button = MessageBoxButton.OK;
                     MessageBoxImage icon = MessageBoxImage.Warning;
                     MessageBox.Show("Uneseni kredencijali nisu ispravni, pokušajte ponovo!", "Greška", button, icon, MessageBoxResult.Yes);
@@ -71,7 +78,7 @@ namespace Kripto.view
                 MessageBox.Show("Tri puta ste pogrešno unijeli kredencijale. Vaš sertifikat je suspendovan!", "Greška", button, icon, MessageBoxResult.Yes);
             }
 
-            logInCounter++;
+            
             if (logInCounter == 3)
             {
                 if (LogIn.certificatePath != null)
