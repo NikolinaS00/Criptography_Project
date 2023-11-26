@@ -22,6 +22,7 @@ namespace Kripto.view
     public partial class LogIn : Window
     {
         public static X509Certificate loggedUserCertificate;
+        public static string loggedUserPassword;
         public static bool loginAvailable = false;
         public string _username;
         public string _password;
@@ -51,6 +52,7 @@ namespace Kripto.view
 
                 if (areCredentialsValid(userName.Text, password.Text))
                 {
+                    loggedUserPassword = password.Text;
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.Show();
                 }

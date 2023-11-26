@@ -43,7 +43,13 @@
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <ListView Grid.Row="1" Grid.Column="1"></ListView>
+            <ListView x:Name="listOfUserFolders" Grid.Row="1" Grid.Column="1" >
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <EventSetter Event="GotFocus" Handler="listOfUserFolders_GotFocus" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
         </Grid>
     </Grid>
 </Window>

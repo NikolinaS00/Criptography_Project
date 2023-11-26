@@ -59,6 +59,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="certificates\Certificate.cs" />
+    <Compile Include="certificates\User.cs" />
     <Compile Include="Strart.cs" />
     <Compile Include="view\ChoseCertificate.xaml.cs">
       <DependentUpon>ChoseCertificate.xaml</DependentUpon>

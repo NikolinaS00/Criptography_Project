@@ -23,7 +23,6 @@ namespace Kripto.certificates
     internal class Certificate
     {
         public static string currentDirectory = Environment.CurrentDirectory;
-        // public static string rootCaPath = Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "cripto";
         public static string rootCaPath = System.IO.Path.Combine( currentDirectory , @".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "cripto" + Path.DirectorySeparatorChar +"rootCA.cer");
         public static string rootCAKey = System.IO.Path.Combine( currentDirectory , @".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "cripto" + Path.DirectorySeparatorChar +"rootCAKey.pfx");
         public static string userCertFolder = System.IO.Path.Combine(currentDirectory, @".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "cripto" + Path.DirectorySeparatorChar + "userCerts" );
@@ -171,6 +170,7 @@ namespace Kripto.certificates
             if (certUserEntry.Certificate.IsValidNow)
             {
                 LogIn.loggedUserCertificate = certUserEntry.Certificate;
+             //   MainWindow.loggedUserCertificate = certUserEntry.Certificate;
                 Console.WriteLine("validaan");
                 userCert.Close();
                 return true;
@@ -224,7 +224,7 @@ namespace Kripto.certificates
             var updatedCrlFile = crlTemp.GetEncoded();
             File.WriteAllBytes(pathCRL, updatedCrlFile);
 
-
+            userCert.Close();
         }
     }
 }
